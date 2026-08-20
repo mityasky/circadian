@@ -1,0 +1,472 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+  color: white;
+  background: #0a0a0a;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.app {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  height: 100dvh; /* для мобильных */
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 60px 24px 40px;
+  text-align: center;
+}
+
+/* === Время и дата === */
+.time-block {
+  margin-top: 20px;
+}
+
+.time {
+  font-size: clamp(64px, 15vw, 120px);
+  font-weight: 200;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  font-variant-numeric: tabular-nums;
+}
+
+.date {
+  margin-top: 12px;
+  font-size: clamp(14px, 3vw, 18px);
+  font-weight: 300;
+  opacity: 0.7;
+  text-transform: capitalize;
+  letter-spacing: 0.05em;
+}
+
+/* === Фаза дня === */
+.phase-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.phase-emoji {
+  font-size: clamp(48px, 10vw, 72px);
+  filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+}
+
+.phase-name {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* === Рекомендация === */
+.recommendation {
+  max-width: 500px;
+  font-size: clamp(14px, 3vw, 17px);
+  font-weight: 300;
+  line-height: 1.5;
+  opacity: 0.85;
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* === Биомаркеры === */
+.biomarkers {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.biomarker {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.biomarker-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.biomarker-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.biomarker-fill {
+  height: 100%;
+  border-radius: 2px;
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* === Кнопка настроек === */
+.settings-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.settings-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(45deg);
+}
+
+.settings-btn:active {
+  transform: scale(0.95);
+}
+
+/* === Панель настроек === */
+.settings-panel {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 24px 40px;
+  background: rgba(20, 20, 25, 0.95);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px 24px 0 0;
+  z-index: 200;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.settings-panel h3 {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.setting-row {
+  margin-bottom: 20px;
+}
+
+.setting-row label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+.setting-row input[type="range"] {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 2px;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.setting-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.setting-row input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.chronotype-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.chronotype-buttons button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chronotype-buttons button.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.chronotype-buttons button:active {
+  transform: scale(0.97);
+}
+
+.close-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  color: white;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.close-btn:active {
+  transform: scale(0.98);
+}
+
+/* === Адаптивность === */
+@media (max-height: 700px) {
+  .content {
+    padding: 40px 20px 30px;
+    justify-content: space-around;
+  }
+  
+  .biomarkers {
+    padding: 14px;
+    gap: 8px;
+  }
+  
+  .recommendation {
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 380px) {
+  .chronotype-buttons {
+    flex-direction: column;
+  }
+  
+  .chronotype-buttons button {
+    font-size: 11px;
+    padding: 8px;
+  }
+}
+
+/* === Погода === */
+.weather-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.weather-icon {
+  font-size: 32px;
+}
+
+.weather-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.weather-temp {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.weather-desc {
+  font-size: 12px;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+/* === Кнопки === */
+.buttons-row {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 100;
+}
+
+.location-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.location-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.location-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* === Информация о локации === */
+.location-info {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.location-info p {
+  font-size: 13px;
+  margin: 6px 0;
+  opacity: 0.8;
+}
+
+/* === Сообщения об ошибках === */
+.error-message {
+  padding: 10px 16px;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  font-size: 13px;
+  color: #fca5a5;
+  max-width: 400px;
+  text-align: center;
+}
+
+.location-warning {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 20px;
+  background: rgba(251, 191, 36, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  border-radius: 12px;
+  font-size: 12px;
+  color: #fcd34d;
+  max-width: 90%;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 50;
+}
+
+/* Кнопка языка */
+.language-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.language-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Кнопки языка в настройках */
+.language-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.language-buttons button {
+  flex: 1;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: white;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.language-buttons button.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.language-buttons button:active {
+  transform: scale(0.97);
+}
